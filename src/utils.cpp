@@ -8,14 +8,19 @@ bool IsLetters(string input)
   for (size_t i = 0; i < input.size(); i++)
   {
     if (!isalpha(input[i]))
-      return false; // character is not alphabetic
+      return false;
   }
-  return true; // Every character is alphabetic
+
+  return true;
 }
 
 void CountOccurrences(vector<string> *arr, int size, ofstream &output_stream)
 {
   int word_count = 1;
+
+  if (size == 0)
+    return;
+
   string curr_word = (*arr)[0];
 
   for (int i = 1; i < size; i++)

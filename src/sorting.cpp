@@ -3,59 +3,65 @@
 
 using namespace std;
 
-void radixSort(vector<string> *words, vector<string> *aux, int lo, int hi, int d)
+//--------------------------------------------------------------
+void RadixSort(vector<string> *words, vector<string> *aux, int low, int high, int char_pos)
+//--------------------------------------------------------------
 {
-  /* Condicao de parada */
-  if (hi < lo)
+  if (high < low)
     return;
 
-  // Caracteres validos na tabela ASCII
   int aux_size = 'Z' - 'A' + 2;
 
-  //Vetor de contagem de caracteres (mesmo para acumulacao)
+  int pos;
+
   vector<int> count(aux_size + 2);
 
-  /* Conta aparições de cada caracter na posicao d */
-  for (int i = lo; i <= hi; i++)
+  for (int i = low; i <= high; i++)
   {
-    /* Operador ternario para garantir que o \0 vai ser levado em conta */
-    int pos = (((*words)[i][d] - 'A') + 2) < 0 ? 1 : ((*words)[i][d] - 'A') + 2;
+    if ((((*words)[i][char_pos] - 'A') + 2) < 0)
+      pos = 1;
+    else
+      pos = ((*words)[i][char_pos] - 'A') + 2;
+
     count[pos]++;
   }
 
-  /* Transforma o vetor em um vetor de acumulacao,
-       o qual indicara os indices das palavras */
-  for (int r = 0; r < aux_size + 1; r++)
-    count[r + 1] += count[r];
+  for (int i = 0; i < aux_size + 1; i++)
+    count[i + 1] += count[i];
 
-  /* Distribui os caracteres no vetor auxiliar */
-  for (int i = lo; i <= hi; i++)
+  for (int i = low; i <= high; i++)
   {
-    /* Operador ternario para garantir que o \0 vai ser levado em conta */
-    int pos = (*words)[i][d] == 0 ? count[0]++ : count[((*words)[i][d] - 'A') + 1]++;
+    if ((*words)[i][char_pos] == 0)
+      pos = count[0]++;
+    else
+      pos = count[((*words)[i][char_pos] - 'A') + 1]++;
+
     (*aux)[pos] = (*words)[i];
   }
 
-  /* Copia as palavras semi-ordenadas de volta ao vetor original */
-  for (int i = lo; i <= hi; i++)
-    (*words)[i] = (*aux)[i - lo];
+  for (int i = low; i <= high; i++)
+    (*words)[i] = (*aux)[i - low];
 
-  /* Chama recursivamente a ordenacao para cada caracter  */
-  for (int r = 0; r < aux_size; r++)
+  for (int i = 0; i < aux_size; i++)
   {
-    radixSort(words, aux, lo + count[r], lo + count[r + 1] - 1, d + 1);
+    RadixSort(words, aux, low + count[i], low + count[i + 1] - 1, char_pos + 1);
   }
 }
 
-void sort(vector<string> *words)
+//--------------------------------------------------------------
+// Define uma array auxiliar vazia com o
+// tamanho da array de palavras e chama o RadixSort
+//--------------------------------------------------------------
+void RadixSortWrapper(vector<string> *words)
+//--------------------------------------------------------------
 {
   vector<string> aux;
 
-  int N = words->size();
+  int size = words->size();
 
-  aux = vector<string>(N, "\0");
+  aux = vector<string>(size, "\0");
 
-  radixSort(words, &aux, 0, N - 1, 0);
+  RadixSort(words, &aux, 0, size - 1, 0);
 
   aux.clear();
 }

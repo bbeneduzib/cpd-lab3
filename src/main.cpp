@@ -52,21 +52,21 @@ void Laboratorio()
 
         size = 0;
 
-        vector<string> strVector;
+        vector<string> str_vector;
         while (file_stream >> temp)
         {
             if (temp.length() > 3 && IsLetters(temp))
             {
-                strVector.push_back(temp);
+                str_vector.push_back(temp);
                 size++;
             }
         }
 
-        sort(&strVector);
+        RadixSortWrapper(&str_vector);
 
-        CountOccurrences(&strVector, size, output_stream);
+        CountOccurrences(&str_vector, size, output_stream);
 
-        strVector.clear();
+        str_vector.clear();
 
         file_stream.close();
         output_stream.close();

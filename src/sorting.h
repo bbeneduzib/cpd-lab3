@@ -6,8 +6,8 @@
 
 using namespace std;
 
-void radixSort(vector<string> *words, int lo, int hi, int d, vector<string> aux);
+void RadixSort(vector<string> *words, vector<string> *aux, int low, int high, int char_pos);
 
-void sort(vector<string> *words);
+void RadixSortWrapper(vector<string> *words);
 
 #endif
