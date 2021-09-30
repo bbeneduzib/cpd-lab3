@@ -6,6 +6,8 @@
         "command": "g++",
         "args": [
           "-g",
+          "${workspaceFolder}\\src\\sorting.cpp",
+          "${workspaceFolder}\\src\\utils.cpp",
           "${workspaceFolder}\\src\\main.cpp",
           "-o",
           "${workspaceFolder}\\bin\\app.exe"
